@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
 export const userModle = mongoose.model("user", userSchema);
 
 export const getUser = (filter: Partial<UserInfoType> = {}) =>
-  userModle.findOne(filter).lean().exec();
+  userModle.findOne(filter);
 export const createUser = (info: UserInfoType) =>
   new userModle(info).save().then((user) => user.toObject());
 export const deleteUserById = (id: string) =>

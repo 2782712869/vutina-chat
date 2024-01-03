@@ -1,67 +1,37 @@
 import { Request, Response } from 'express';
-import { createUser, UserInfoType, getUser } from '../models/users';
-import { authentication, random } from '../helpers';
+import { createUser, getUser } from '../models/users';
+import { hashPassword } from '../helpers' 
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body as UserInfoType;
-    if (!username || !password) {
-      return res.status(400).json({ error: 'Username and password are required.' });
+    const { username, password } = req.body;
+
+    const _hashPassword = hashPassword(password)
+    const user = await getUser({ username, password: _hashPassword });
+    if (user?.password !== _hashPassword) {
+      return res.status(401).json({ error: '用户名或密码不正确' });
     }
-
-    // Fetch user from the database
-    const user = await getUser({ username });
-    console.log(user)
-
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid username or password.' });
-    }
-
-    // Validate user's password (without encryption for simplicity)
-    if (password !== user.password) {
-      return res.status(401).json({ error: 'Invalid username or password.' });
-    }
-
-    // Assuming you have a function to generate and manage authentication tokens
-    const authToken = generateAuthToken(username);
-
-    return res.status(200).json({ token: authToken, message: 'Login successful.' });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    res.status(200).json(user);
+  } catch(err) {
+    console.error(err)
+    res.status(500).json({ error: '服务器错误' });
   }
 };
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body as UserInfoType;
-    if (!username || !password) {
-      return res.status(400).json({ error: 'Username and password are required.' });
-    }
+    const { username, password } = req.body;
+    const _hashPassword = hashPassword(password)
 
-    // Check if the username is already taken
     const existingUser = await getUser({ username });
     if (existingUser) {
-      return res.status(409).json({ error: 'Username already exists.' });
+      return res.status(400).json({ error: '用户名已存在' });
     }
+    const newUser = await createUser({ username, password: _hashPassword })
 
-    const newUser: UserInfoType = {
-      username,
-      password, // Storing password as-is (without encryption) for simplicity
-    };
-
-    await createUser(newUser);
-
-    return res.status(201).json({ message: 'Registration successful.' });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    res.status(200).json(newUser);
+  } catch(err) {
+    console.error(err)
+    res.status(500).json({ error: '服务器错误' });
   }
 };
-
-// Helper function to generate and manage authentication tokens
-const generateAuthToken = (username: string): string => {
-  // Your token generation logic goes here
-  return `your_generated_token_for_${username}`;
-};
-
