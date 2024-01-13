@@ -1,0 +1,19 @@
+{
+  "name": "vutina-chat-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "XKL",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.15.0",
+    "mongoose": "^8.0.4"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.14.0",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

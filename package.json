@@ -1,0 +1,14 @@
+{
+  "name": "vutina-chat",
+  "version": "1.0.0",
+  "keywords": [
+    "chat",
+    "vutina"
+  ],
+  "author": "XKL",
+  "license": "MIT",
+  "description": "一个react + node开发的web chat",
+  "devDependencies": {
+    "eslint-plugin-complexity": "^1.0.2"
+  }
+}
