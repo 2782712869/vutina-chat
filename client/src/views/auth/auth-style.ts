@@ -41,6 +41,7 @@ const accountFormStyle = css`
 
       .input {
         width: 90%;
+        height: 70px;
       }
     }
 
@@ -91,10 +92,10 @@ const authStyle = css`
   .auth {
     width: 1180px;
     height: 90vh;
+    padding-top: 35px;
     background: linear-gradient(to bottom right, #f0f0f0, #dfe6e9);
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 65px 25px;
     box-sizing: border-box;
     display: flex;
     color: #37474f;
