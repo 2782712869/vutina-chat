@@ -7,7 +7,7 @@ import {
   Button,
   Link,
 } from '@mui/material';
-import { authUsername, authTelephone, authPassword } from './verify';
+import { authTelephone, authPassword } from "./verify";
 import { ChangeEvent, FormEvent } from 'react';
 import { useImmer } from 'use-immer';
 
@@ -20,35 +20,21 @@ function Logo() {
   );
 }
 
-/* TODO:
-表单的输入时验证正则 
-用户名和手机号的输入时查看账号
-记住状态 忘记密码
-axios请求的封装
-数据的不可变 性能优化
-动画过渡
-bug修复
-代码工程拆分
-*/
 function AccountForm() {
   type FormDataType = {
-    username: string;
     telephone: string;
     password: string;
   };
   const [formData, setFormData] = useImmer<FormDataType>({
-    username: '',
-    telephone: '',
-    password: '',
+    telephone: "",
+    password: "",
   });
 
   const validateField = (fieldName: keyof FormDataType, value: string) => {
     switch (fieldName) {
-      case 'username':
-        return authUsername(value);
-      case 'telephone':
+      case "telephone":
         return authTelephone(value);
-      case 'password':
+      case "password":
         return authPassword(value);
       default:
         return true;
@@ -58,14 +44,13 @@ function AccountForm() {
   const [fieldErrors, setFieldErrors] = useImmer<
     Record<keyof FormDataType, boolean>
   >({
-    username: false,
     telephone: false,
     password: false,
   });
 
   const handleBlur = (fieldName: keyof FormDataType) => {
     const value = formData[fieldName];
-    if (value.trim() === '') {
+    if (value.trim() === "") {
       setFieldErrors((draft) => {
         draft[fieldName] = false;
       });
@@ -86,27 +71,25 @@ function AccountForm() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    const isUsernameValid = authUsername(formData.username);
     const isTelephoneValid = authTelephone(formData.telephone);
     const isPasswordValid = authPassword(formData.password);
 
-    if (isUsernameValid && isTelephoneValid && isPasswordValid) {
-      console.log('1');
+    if (isTelephoneValid && isPasswordValid) {
+      console.log("1");
     } else {
-      console.log('2');
+      console.log("2");
     }
   };
 
   type InputType = {
-    label: '账户' | '电话' | '密码';
+    label: "账户" | "电话" | "密码";
     id: keyof FormDataType;
-    type: 'text' | 'password';
+    type: "text" | "password";
   };
 
   const inputFields: InputType[] = [
-    { label: '账户', id: 'username', type: 'text' },
-    { label: '电话', id: 'telephone', type: 'text' },
-    { label: '密码', id: 'password', type: 'password' },
+    { label: "电话", id: "telephone", type: "text" },
+    { label: "密码", id: "password", type: "password" },
   ];
 
   return (
@@ -116,7 +99,7 @@ function AccountForm() {
           <label htmlFor={field.id}>{field.label}</label>
           <TextField
             error={fieldErrors[field.id]}
-            helperText={fieldErrors[field.id] ? '输入不合法' : ''}
+            helperText={fieldErrors[field.id] ? "输入不合法" : ""}
             className="input"
             type={field.type}
             id={field.id}

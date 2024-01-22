@@ -1,7 +1,3 @@
-export function authUsername(value: string) {
-  return value.trim().length > 0;
-}
-
 export function authTelephone(value: string) {
   return /^1\d{10}$/.test(value);
 }
