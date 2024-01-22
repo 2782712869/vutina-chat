@@ -5,6 +5,9 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
+  li {
+    list-style: none;
+  }
   body, html {
     width: 100%;
     height: 100%;

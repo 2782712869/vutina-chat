@@ -20,7 +20,7 @@ export async function login(ctx: Context) {
 
   const user = await createUser({
     telephone,
-    password,
+    password: hashedPassword,
   });
 
   const token = jwt.sign(
